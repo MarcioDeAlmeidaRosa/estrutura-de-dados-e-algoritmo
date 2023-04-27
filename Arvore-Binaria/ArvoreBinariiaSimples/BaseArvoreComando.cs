@@ -15,7 +15,7 @@ public abstract class BaseArvoreComando
             : no?.Esquerdo;
     }
 
-    private void AtribuirLado(int valor, No no, No noFilho)
+    private void AtribuirLado(int valor, No no, No? noFilho)
     {
         if (valor > no.Valor)
         {
@@ -53,6 +53,10 @@ public abstract class BaseArvoreComando
         return LocalizarNo(valor, SelecionaLado(valor, no));
     }
 
+    private bool RemoverSemDependencia(No no)
+            => (no.Tipo == TipoNo.Raiz && (no.Direito ?? no.Esquerdo) == null)
+            || no.Tipo == TipoNo.Folha;
+
     protected No? RemoverItem(int valor, No? no)
     {
         var _noLocalizado = LocalizarNo(valor, no);
@@ -67,14 +71,11 @@ public abstract class BaseArvoreComando
                 no = null;
                 return no;
             }
-
+            var pai = LocalizarNo(_noLocalizado.Pai.GetValueOrDefault(), no);
+            if (pai != null)
+                AtribuirLado(valor, pai, null);
         }
 
-        ImprimeSaida.Imprimir(_noLocalizado);
         return no;
     }
-
-    private bool RemoverSemDependencia(No no)
-        => (no.Tipo == TipoNo.Raiz && (no.Direito ?? no.Esquerdo) == null)
-        || no.Tipo == TipoNo.Folha;
 }
