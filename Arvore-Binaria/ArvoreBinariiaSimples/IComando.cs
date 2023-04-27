@@ -1,4 +1,4 @@
 public interface IComando
 {
-    No Executar(No? no);
+    No? Executar(No? no);
 }

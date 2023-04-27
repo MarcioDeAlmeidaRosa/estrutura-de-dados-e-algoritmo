@@ -4,7 +4,7 @@ public class GerarArvoreDinamicaComando : BaseArvoreComando, IComando
 {
     private const int Multiplicador = 3;
 
-    public No Executar(No? no)
+    public No? Executar(No? no)
     {
         Console.WriteLine("Digite a quantidade de itens na árvore:");
         var valor = Convert.ToInt32(Console.ReadLine());
