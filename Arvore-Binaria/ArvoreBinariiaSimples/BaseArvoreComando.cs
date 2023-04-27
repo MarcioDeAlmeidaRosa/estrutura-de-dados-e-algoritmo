@@ -17,7 +17,7 @@ public abstract class BaseArvoreComando
 
     private void AtribuiTipo(No no)
     {
-        no.Tipo = !(TipoNo.Raiz | TipoNo.RaizDireitoEsquerdo).HasFlag(no.Tipo)
+        no.Tipo = !(TipoNo.Raiz | TipoNo.RaizDireitaEsquerda).HasFlag(no.Tipo)
             ? no.Esquerdo == null && no.Direito == null
                 ? TipoNo.Folha
                 : no.Esquerdo != null && no.Direito == null
@@ -28,10 +28,10 @@ public abstract class BaseArvoreComando
             : no.Esquerdo == null && no.Direito == null
                 ? TipoNo.Raiz
                 : no.Esquerdo != null && no.Direito == null
-                  ? TipoNo.RaizEsquerdo
+                  ? TipoNo.RaizEsquerda
                   : no.Esquerdo != null && no.Direito != null
-                  ? TipoNo.RaizDireitoEsquerdo
-                  : TipoNo.RaizDireito;
+                  ? TipoNo.RaizDireitaEsquerda
+                  : TipoNo.RaizDireita;
     }
 
     private void AtribuirLado(int valor, No no, No? noFilho)
@@ -95,7 +95,7 @@ public abstract class BaseArvoreComando
             }
 
             var pai = LocalizarNo(_noLocalizado.Pai.GetValueOrDefault(), no);
-            
+
             if (pai == null)
                 return no;
 

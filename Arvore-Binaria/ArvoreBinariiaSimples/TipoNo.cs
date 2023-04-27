@@ -3,11 +3,11 @@ public enum TipoNo
 {
     Raiz = 1,
 
-    RaizDireito = 2,
+    RaizDireita = 2,
 
-    RaizEsquerdo = 4,
+    RaizEsquerda = 4,
     
-    RaizDireitoEsquerdo = RaizDireito | RaizEsquerdo,
+    RaizDireitaEsquerda = RaizDireita | RaizEsquerda,
 
     Folha = 8,
 
