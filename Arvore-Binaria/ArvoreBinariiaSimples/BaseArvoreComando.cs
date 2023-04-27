@@ -56,7 +56,25 @@ public abstract class BaseArvoreComando
     protected No? RemoverItem(int valor, No? no)
     {
         var _noLocalizado = LocalizarNo(valor, no);
+
+        if (_noLocalizado == null)
+            return no;
+
+        if (RemoverSemDependencia(_noLocalizado))
+        {
+            if (_noLocalizado.Tipo == TipoNo.Raiz)
+            {
+                no = null;
+                return no;
+            }
+
+        }
+
         ImprimeSaida.Imprimir(_noLocalizado);
         return no;
     }
+
+    private bool RemoverSemDependencia(No no)
+        => (no.Tipo == TipoNo.Raiz && (no.Direito ?? no.Esquerdo) == null)
+        || no.Tipo == TipoNo.Folha;
 }
