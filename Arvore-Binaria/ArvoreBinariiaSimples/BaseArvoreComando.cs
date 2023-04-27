@@ -44,13 +44,19 @@ public abstract class BaseArvoreComando
 
     protected No? RemoverItem(int valor, No? no)
     {
+        var _noLocalizado = LocalizarNo(valor, no);
+        ImprimeSaida.Imprimir(_noLocalizado);
         return no;
     }
 
     private No? LocalizarNo(int valor, No? no)
     {
-        var encontrei = no?.Valor == valor;
+        if (no == null)
+            return no;
 
-        return no;
+        if (no.Valor == valor)
+            return no;
+
+        return LocalizarNo(valor, SelecionaLado(valor, no));
     }
 }
