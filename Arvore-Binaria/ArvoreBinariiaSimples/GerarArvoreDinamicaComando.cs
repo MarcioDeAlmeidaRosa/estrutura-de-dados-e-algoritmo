@@ -1,5 +1,3 @@
-using System.Text.Json;
-
 public class GerarArvoreDinamicaComando : BaseArvoreComando, IComando
 {
     public No? Executar(No? no)
@@ -13,9 +11,6 @@ public class GerarArvoreDinamicaComando : BaseArvoreComando, IComando
         {
             no = Adicionar(numero, no);
         }
-
-        Console.WriteLine(JsonSerializer.Serialize(no));
-
         return no;
     }
 }

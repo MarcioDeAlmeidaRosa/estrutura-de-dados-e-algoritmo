@@ -1,5 +1,12 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+// See https://aka.ms/new-console-template for more information
 Console.WriteLine("Utilizando árvore binária...");
+JsonSerializerOptions options = new()
+{
+    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
+};
+
 
 No? no = default;
 
@@ -10,11 +17,18 @@ while (true)
     switch (comando)
     {
         case "1":
-            no = new AdicionarArvoreComando().Executar(no);
+            no = new AdicionarNovoItemArvoreComando().Executar(no);
+            Console.WriteLine(JsonSerializer.Serialize(no, options));
             break;
 
         case "2":
             no = new GerarArvoreDinamicaComando().Executar(no);
+            Console.WriteLine(JsonSerializer.Serialize(no, options));
+            break;
+
+        case "3":
+            no = new DeletartemArvoreComando().Executar(no);
+            Console.WriteLine(JsonSerializer.Serialize(no, options));
             break;
 
         case "9":

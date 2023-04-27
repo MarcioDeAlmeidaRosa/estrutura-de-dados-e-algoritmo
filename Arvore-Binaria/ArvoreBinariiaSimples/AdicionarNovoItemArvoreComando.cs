@@ -1,4 +1,4 @@
-public class AdicionarArvoreComando : BaseArvoreComando, IComando
+public class AdicionarNovoItemArvoreComando : BaseArvoreComando, IComando
 {
     public No? Executar(No? no)
     {
