@@ -1,12 +1,5 @@
-public class ManipularArvore
+public abstract class BaseArvoreComando
 {
-    public No AdicionarItem(No? no)
-    {
-        Console.WriteLine("Digite o valor:");
-        var valor = Convert.ToInt32(Console.ReadLine());
-        return Adicionar(valor, no);
-    }
-
     private No CriarNo(int valor, No? pai)
     {
         var _no = new No { Valor = valor };
@@ -15,7 +8,7 @@ public class ManipularArvore
         return _no;
     }
 
-    private No Adicionar(int valor, No? no)
+    protected No Adicionar(int valor, No? no)
     {
         if (no == null)
         {

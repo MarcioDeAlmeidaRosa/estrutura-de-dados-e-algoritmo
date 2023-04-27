@@ -10,7 +10,11 @@ while (true)
     switch (comando)
     {
         case "1":
-            no = new ManipularArvore().AdicionarItem(no);
+            no = new AdicionarArvoreComando().Executar(no);
+            break;
+
+        case "2":
+            no = new GerarArvoreDinamicaComando().Executar(no);
             break;
 
         case "9":
