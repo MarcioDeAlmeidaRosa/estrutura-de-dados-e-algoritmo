@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Arvore-Binaria/ArvoreBinariiaSimples/ArvoreBinariiaSimples.csproj",
+                "${workspaceFolder}/Arvore-Binaria/ArvoreBinariaSimples/ArvoreBinariaSimples/ArvoreBinariaSimples.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Arvore-Binaria/ArvoreBinariiaSimples/ArvoreBinariiaSimples.csproj",
+                "${workspaceFolder}/Arvore-Binaria/ArvoreBinariaSimples/ArvoreBinariaSimples/ArvoreBinariaSimples.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/Arvore-Binaria/ArvoreBinariiaSimples/ArvoreBinariiaSimples.csproj"
+                "${workspaceFolder}/Arvore-Binaria/ArvoreBinariaSimples/ArvoreBinariaSimples/ArvoreBinariaSimples.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
