@@ -1,3 +1,5 @@
+namespace ArvoreBinariaSimples;
+
 public class GerarArvoreDinamicaComando : BaseArvoreComando, IComando
 {
     public No? Executar(No? no)

@@ -1,3 +1,5 @@
+namespace ArvoreBinariaSimples;
+
 public class No
 {
     public int? Pai { get; set; }

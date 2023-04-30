@@ -1,3 +1,5 @@
+namespace ArvoreBinariaSimples;
+
 public abstract class BaseArvoreComando
 {
     private No CriarNo(int valor, No? pai, TipoNo tipo)

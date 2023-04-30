@@ -1,4 +1,5 @@
-namespace ArvoreBinariiaSimplesTest;
+using ArvoreBinariaSimples;
+namespace ArvoreBinariaSimplesTest;
 
 public class UnitTest1
 {

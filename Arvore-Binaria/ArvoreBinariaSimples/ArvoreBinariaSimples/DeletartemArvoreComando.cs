@@ -1,3 +1,5 @@
+namespace ArvoreBinariaSimples;
+
 public class DeletartemArvoreComando : BaseArvoreComando, IComando
 {
     public No? Executar(No? no)

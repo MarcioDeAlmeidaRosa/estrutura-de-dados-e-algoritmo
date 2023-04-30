@@ -1,3 +1,5 @@
+namespace ArvoreBinariaSimples;
+
 public class AdicionarNovoItemArvoreComando : BaseArvoreComando, IComando
 {
     public No? Executar(No? no)

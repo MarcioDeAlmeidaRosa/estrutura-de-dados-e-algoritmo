@@ -1,4 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using ArvoreBinariaSimples;
+
+// See https://aka.ms/new-console-template for more information
 Console.WriteLine("Utilizando árvore binária...");
 
 No? no = default;

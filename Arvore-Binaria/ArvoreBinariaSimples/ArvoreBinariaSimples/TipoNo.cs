@@ -1,3 +1,5 @@
+namespace ArvoreBinariaSimples;
+
 [Flags]
 public enum TipoNo
 {
