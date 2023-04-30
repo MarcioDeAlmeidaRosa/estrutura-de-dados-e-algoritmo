@@ -2,10 +2,8 @@ namespace ArvoreBinariaSimples;
 
 public class GerarArvoreDinamicaComando : BaseArvoreComando, IComando
 {
-    public No? Executar(No? no)
+    public No? Executar(No? no, int valor)
     {
-        Console.WriteLine("Digite a quantidade de itens na árvore:");
-        var valor = Convert.ToInt32(Console.ReadLine());
         byte[] randomicoBytes = new byte[valor];
         Random random = new();
         random.NextBytes(randomicoBytes);
@@ -14,5 +12,10 @@ public class GerarArvoreDinamicaComando : BaseArvoreComando, IComando
             no = Adicionar(numero, no);
         }
         return no;
+    }
+
+    public void ImprimirMensagem()
+    {
+        Console.WriteLine("Digite a quantidade de itens na árvore:");
     }
 }

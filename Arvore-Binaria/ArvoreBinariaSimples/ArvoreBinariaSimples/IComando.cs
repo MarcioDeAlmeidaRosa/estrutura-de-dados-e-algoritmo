@@ -2,5 +2,6 @@ namespace ArvoreBinariaSimples;
 
 public interface IComando
 {
-    No? Executar(No? no);
+    void ImprimirMensagem();
+    No? Executar(No? no, int valor);
 }

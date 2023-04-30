@@ -2,10 +2,13 @@ namespace ArvoreBinariaSimples;
 
 public class AdicionarNovoItemArvoreComando : BaseArvoreComando, IComando
 {
-    public No? Executar(No? no)
+    public No? Executar(No? no, int valor)
+    {
+        return Adicionar(valor, no);
+    }
+
+    public void ImprimirMensagem()
     {
         Console.WriteLine("Digite o valor:");
-        var valor = Convert.ToInt32(Console.ReadLine());
-        return Adicionar(valor, no);
     }
 }
