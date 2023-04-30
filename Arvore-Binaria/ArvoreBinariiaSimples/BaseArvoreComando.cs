@@ -34,17 +34,17 @@ public abstract class BaseArvoreComando
                   : TipoNo.RaizDireita;
     }
 
-    private void AtribuirLado(int valor, No no, No? noFilho)
+    private void AtribuirLado(int valor, No noPai, No? noFilho)
     {
         if (noFilho != null)
-            noFilho.Pai = no.Valor;
+            noFilho.Pai = noPai.Valor;
 
-        if (valor > no.Valor)
-            no.Direito = noFilho;
+        if (valor > noPai.Valor)
+            noPai.Direito = noFilho;
         else
-            no.Esquerdo = noFilho;
+            noPai.Esquerdo = noFilho;
 
-        AtribuiTipo(no);
+        AtribuiTipo(noPai);
     }
 
     protected No Adicionar(int valor, No? no)
@@ -77,35 +77,55 @@ public abstract class BaseArvoreComando
 
     private bool RemocaoSimples(No no)
             => (no.Tipo.HasFlag(TipoNo.Raiz))
-            || ((TipoNo.FilhoDireito | TipoNo.FilhoEsquerdo | TipoNo.Folha).HasFlag(no.Tipo) && no.Tipo != TipoNo.FilhoDireitoEsquerdo);
+            || ((TipoNo.FilhoDireito | TipoNo.FilhoEsquerdo | TipoNo.Folha).HasFlag(no.Tipo)
+                 && no.Tipo != TipoNo.FilhoDireitoEsquerdo);
+
+    private bool RemocaoIntermediaria(No no)
+        => (TipoNo.RaizDireitaEsquerda | TipoNo.FilhoDireitoEsquerdo).HasFlag(no.Tipo)
+            && (no.Esquerdo?.Tipo ?? TipoNo.Folha | no.Direito?.Tipo ?? TipoNo.Folha).HasFlag(TipoNo.Folha);
 
     protected No? RemoverItem(int valor, No? no)
     {
-        var _noLocalizado = LocalizarNo(valor, no);
+        var _noDelecaoLocalizado = LocalizarNo(valor, no);
 
-        if (_noLocalizado == null)
+        if (_noDelecaoLocalizado == null)
             return no;
 
-        if (RemocaoSimples(_noLocalizado))
+        if (RemocaoSimples(_noDelecaoLocalizado))
         {
-            if (_noLocalizado.Tipo == TipoNo.Raiz)
+            if (_noDelecaoLocalizado.Tipo == TipoNo.Raiz)
             {
                 no = null;
                 return no;
             }
 
-            var pai = LocalizarNo(_noLocalizado.Pai.GetValueOrDefault(), no);
+            var pai = LocalizarNo(_noDelecaoLocalizado.Pai.GetValueOrDefault(), no);
 
             if (pai == null)
                 return no;
 
-            if (_noLocalizado.Tipo == TipoNo.Folha)
+            if (_noDelecaoLocalizado.Tipo == TipoNo.Folha)
             {
                 AtribuirLado(valor, pai, null);
                 return no;
             }
 
-            AtribuirLado(valor, pai, _noLocalizado.Esquerdo ?? _noLocalizado.Direito);
+            AtribuirLado(valor, pai, _noDelecaoLocalizado.Esquerdo ?? _noDelecaoLocalizado.Direito);
+        }
+        else if (RemocaoIntermediaria(_noDelecaoLocalizado))
+        {
+            var pai = _noDelecaoLocalizado.Pai.HasValue
+                ? LocalizarNo(_noDelecaoLocalizado.Pai.Value, no)
+                : default;
+
+            if (_noDelecaoLocalizado.Esquerdo != null && _noDelecaoLocalizado.Direito != null)
+            {
+                AtribuirLado(valor, _noDelecaoLocalizado.Esquerdo, _noDelecaoLocalizado.Direito);
+                if (pai != null)
+                {
+                    AtribuirLado(valor, pai, _noDelecaoLocalizado.Esquerdo);
+                }
+            }
         }
 
         return no;
