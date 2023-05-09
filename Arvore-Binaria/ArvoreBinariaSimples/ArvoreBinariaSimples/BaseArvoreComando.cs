@@ -36,8 +36,11 @@ public abstract class BaseArvoreComando
                   : TipoNo.RaizDireita;
     }
 
-    private void AtribuirLado(int valor, No noPai, No? noFilho)
+    private void AtribuirLado(int valor, No? noPai, No? noFilho)
     {
+        if (noPai == null)
+            return;
+
         if (noFilho != null)
             noFilho.Pai = noPai.Valor;
 
@@ -86,6 +89,20 @@ public abstract class BaseArvoreComando
         => (TipoNo.RaizDireitaEsquerda | TipoNo.FilhoDireitoEsquerdo).HasFlag(no.Tipo)
             && (no.Esquerdo?.Tipo ?? TipoNo.Folha | no.Direito?.Tipo ?? TipoNo.Folha).HasFlag(TipoNo.Folha);
 
+    private No? AtribuirNoLugar(No? no, int valor, No novoValor)
+    {
+        if (no?.Valor == valor)
+        {
+            no = novoValor;
+            return no;
+        }
+
+        var _no = AtribuirNoLugar(SelecionaLado(valor, no), valor, novoValor);
+        AtribuirLado(valor, no, _no);
+
+        return no;
+    }
+
     protected No? RemoverItem(int valor, No? no)
     {
         var _noDelecaoLocalizado = LocalizarNo(valor, no);
@@ -116,17 +133,19 @@ public abstract class BaseArvoreComando
         }
         else if (RemocaoIntermediaria(_noDelecaoLocalizado))
         {
-            var pai = _noDelecaoLocalizado.Pai.HasValue
-                ? LocalizarNo(_noDelecaoLocalizado.Pai.Value, no)
-                : default;
-
-            if (_noDelecaoLocalizado.Esquerdo != null && _noDelecaoLocalizado.Direito != null)
+            if (_noDelecaoLocalizado.Esquerdo != null)
             {
+                _noDelecaoLocalizado.Esquerdo.Pai = _noDelecaoLocalizado.Pai;
+                _noDelecaoLocalizado.Esquerdo.Tipo = _noDelecaoLocalizado.Tipo;
                 AtribuirLado(valor, _noDelecaoLocalizado.Esquerdo, _noDelecaoLocalizado.Direito);
-                if (pai != null)
-                {
-                    AtribuirLado(valor, pai, _noDelecaoLocalizado.Esquerdo);
-                }
+                no = AtribuirNoLugar(no, valor, _noDelecaoLocalizado.Esquerdo);
+            }
+            else if (_noDelecaoLocalizado.Direito != null)
+            {
+                _noDelecaoLocalizado.Direito.Pai = _noDelecaoLocalizado.Pai;
+                _noDelecaoLocalizado.Direito.Tipo = _noDelecaoLocalizado.Tipo;
+                AtribuirLado(valor, _noDelecaoLocalizado.Direito, null);
+                no = AtribuirNoLugar(no, valor, _noDelecaoLocalizado.Direito);
             }
         }
 
