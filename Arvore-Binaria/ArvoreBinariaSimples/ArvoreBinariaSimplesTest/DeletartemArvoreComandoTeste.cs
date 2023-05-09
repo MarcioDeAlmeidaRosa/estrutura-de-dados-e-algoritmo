@@ -233,7 +233,7 @@ public class DeletartemArvoreComandoTeste
     }
 
     [Fact]
-    public void DeletartemArvoreComandoTeste_DeletandoFilhoDireitoDoFilhoComFilhoFolhaEsquerda_Sucesso1()
+    public void DeletartemArvoreComandoTeste_DeletandoFilhoDireitoDoFilhoComFilhoFolhaEsquerda_Sucesso()
     {
         //Arrange
         var comando = new DeletartemArvoreComando();
@@ -340,5 +340,556 @@ public class DeletartemArvoreComandoTeste
         Assert.Equal(TipoNo.FilhoDireitoEsquerdo, result?.Direito?.Tipo);
         Assert.Equal(TipoNo.FilhoEsquerdo, result?.Direito?.Direito?.Tipo);
         Assert.Equal(valorFilho, result?.Direito?.Direito?.Valor);
+    }
+
+    [Fact]
+    public void DeletartemArvoreComandoTeste_DeletandoRaizComFilhosDireitaEsquerda_Sucesso()
+    {
+        //Arrange
+        var comando = new DeletartemArvoreComando();
+        const int valorFilho = 12;
+        No no = new()
+        {
+            Valor = 15,
+            Tipo = TipoNo.RaizDireitaEsquerda,
+            Esquerdo = new No
+            {
+                Valor = 10,
+                Tipo = TipoNo.FilhoDireitoEsquerdo,
+                Pai = 15,
+                Direito = new No
+                {
+                    Valor = valorFilho,
+                    Tipo = TipoNo.Folha,
+                    Pai = 10
+                },
+                Esquerdo = new No
+                {
+                    Valor = 6,
+                    Tipo = TipoNo.FilhoDireitoEsquerdo,
+                    Pai = 15,
+                    Esquerdo = new No
+                    {
+                        Valor = 5,
+                        Pai = 6,
+                        Tipo = TipoNo.Folha
+                    },
+                    Direito = new No
+                    {
+                        Valor = 9,
+                        Pai = 6,
+                        Tipo = TipoNo.FilhoEsquerdo,
+                        Esquerdo = new No
+                        {
+                            Valor = 8,
+                            Pai = 9,
+                            Tipo = TipoNo.Folha
+                        }
+
+                    }
+                },
+            },
+            Direito = new No
+            {
+                Valor = 20,
+                Pai = 15,
+                Tipo = TipoNo.FilhoDireitoEsquerdo,
+                Esquerdo = new No
+                {
+                    Valor = 18,
+                    Pai = 20,
+                    Tipo = TipoNo.FilhoDireitoEsquerdo,
+                    Esquerdo = new No
+                    {
+                        Valor = 16,
+                        Pai = 18,
+                        Tipo = TipoNo.FilhoDireito,
+                        Direito = new No
+                        {
+                            Valor = 17,
+                            Pai = 16,
+                            Tipo = TipoNo.Folha
+                        }
+                    },
+                    Direito = new No
+                    {
+                        Valor = 19,
+                        Pai = 18,
+                        Tipo = TipoNo.Folha
+                    }
+                },
+                Direito = new No
+                {
+                    Valor = 25,
+                    Pai = 20,
+                    Tipo = TipoNo.FilhoDireito,
+                    Direito = new No
+                    {
+                        Valor = 30,
+                        Pai = 25,
+                        Tipo = TipoNo.FilhoEsquerdo,
+                        Esquerdo = new No
+                        {
+                            Valor = 27,
+                            Pai = 30,
+                            Tipo = TipoNo.Folha
+                        }
+                    }
+                }
+            }
+        };
+        var valor = 15;
+
+        //Act
+        var result = comando.Executar(no, valor);
+
+        //Assert
+        Assert.NotNull(result?.Direito);
+        Assert.NotNull(result?.Esquerdo);
+        Assert.Equal(TipoNo.RaizDireitaEsquerda, result?.Tipo);
+        Assert.Equal(valorFilho, result?.Valor);
+        Assert.Equal(TipoNo.FilhoEsquerdo, result?.Esquerdo?.Tipo);
+        Assert.Equal(TipoNo.FilhoDireitoEsquerdo, result?.Direito?.Tipo);
+    }
+
+    [Fact]
+    public void DeletartemArvoreComandoTeste_DeletandoRaizComFilhosDireitaEsquerda2_Sucesso()
+    {
+        //Arrange
+        var comando = new DeletartemArvoreComando();
+        const int valorFilho = 12;
+        No no = new()
+        {
+            Valor = 15,
+            Tipo = TipoNo.RaizDireitaEsquerda,
+            Esquerdo = new No
+            {
+                Valor = 10,
+                Tipo = TipoNo.FilhoDireitoEsquerdo,
+                Pai = 15,
+                Direito = new No
+                {
+                    Valor = valorFilho,
+                    Tipo = TipoNo.FilhoEsquerdo,
+                    Pai = 10,
+                    Esquerdo = new No
+                    {
+                        Valor = 11,
+                        Pai = valorFilho,
+                        Tipo = TipoNo.Folha
+                    }
+                },
+                Esquerdo = new No
+                {
+                    Valor = 6,
+                    Tipo = TipoNo.FilhoDireitoEsquerdo,
+                    Pai = 15,
+                    Esquerdo = new No
+                    {
+                        Valor = 5,
+                        Pai = 6,
+                        Tipo = TipoNo.Folha
+                    },
+                    Direito = new No
+                    {
+                        Valor = 9,
+                        Pai = 6,
+                        Tipo = TipoNo.FilhoEsquerdo,
+                        Esquerdo = new No
+                        {
+                            Valor = 8,
+                            Pai = 9,
+                            Tipo = TipoNo.Folha
+                        }
+
+                    }
+                },
+            },
+            Direito = new No
+            {
+                Valor = 20,
+                Pai = 15,
+                Tipo = TipoNo.FilhoDireitoEsquerdo,
+                Esquerdo = new No
+                {
+                    Valor = 18,
+                    Pai = 20,
+                    Tipo = TipoNo.FilhoDireitoEsquerdo,
+                    Esquerdo = new No
+                    {
+                        Valor = 16,
+                        Pai = 18,
+                        Tipo = TipoNo.FilhoDireito,
+                        Direito = new No
+                        {
+                            Valor = 17,
+                            Pai = 16,
+                            Tipo = TipoNo.Folha
+                        }
+                    },
+                    Direito = new No
+                    {
+                        Valor = 19,
+                        Pai = 18,
+                        Tipo = TipoNo.Folha
+                    }
+                },
+                Direito = new No
+                {
+                    Valor = 25,
+                    Pai = 20,
+                    Tipo = TipoNo.FilhoDireito,
+                    Direito = new No
+                    {
+                        Valor = 30,
+                        Pai = 25,
+                        Tipo = TipoNo.FilhoEsquerdo,
+                        Esquerdo = new No
+                        {
+                            Valor = 27,
+                            Pai = 30,
+                            Tipo = TipoNo.Folha
+                        }
+                    }
+                }
+            }
+        };
+        var valor = 15;
+
+        //Act
+        var result = comando.Executar(no, valor);
+
+        //Assert
+        Assert.NotNull(result?.Direito);
+        Assert.NotNull(result?.Esquerdo);
+        Assert.Equal(TipoNo.RaizDireitaEsquerda, result?.Tipo);
+        Assert.Equal(valorFilho, result?.Valor);
+        Assert.Equal(TipoNo.FilhoDireitoEsquerdo, result?.Esquerdo?.Tipo);
+        Assert.Equal(TipoNo.FilhoDireitoEsquerdo, result?.Direito?.Tipo);
+    }
+
+    [Fact]
+    public void DeletartemArvoreComandoTeste_DeletandoFilhoComFilhosDireitaEsquerda_Sucesso()
+    {
+        //Arrange
+        var comando = new DeletartemArvoreComando();
+        const int valorFilho = 5;
+        No no = new()
+        {
+            Valor = 15,
+            Tipo = TipoNo.RaizDireitaEsquerda,
+            Esquerdo = new No
+            {
+                Valor = 10,
+                Tipo = TipoNo.FilhoDireitoEsquerdo,
+                Pai = 15,
+                Direito = new No
+                {
+                    Valor = 12,
+                    Tipo = TipoNo.FilhoEsquerdo,
+                    Pai = 10,
+                    Esquerdo = new No
+                    {
+                        Valor = 11,
+                        Pai = 12,
+                        Tipo = TipoNo.Folha
+                    }
+                },
+                Esquerdo = new No
+                {
+                    Valor = 6,
+                    Tipo = TipoNo.FilhoDireitoEsquerdo,
+                    Pai = 15,
+                    Esquerdo = new No
+                    {
+                        Valor = valorFilho,
+                        Pai = 6,
+                        Tipo = TipoNo.Folha
+                    },
+                    Direito = new No
+                    {
+                        Valor = 9,
+                        Pai = 6,
+                        Tipo = TipoNo.FilhoEsquerdo,
+                        Esquerdo = new No
+                        {
+                            Valor = 8,
+                            Pai = 9,
+                            Tipo = TipoNo.Folha
+                        }
+
+                    }
+                },
+            },
+            Direito = new No
+            {
+                Valor = 20,
+                Pai = 15,
+                Tipo = TipoNo.FilhoDireitoEsquerdo,
+                Esquerdo = new No
+                {
+                    Valor = 18,
+                    Pai = 20,
+                    Tipo = TipoNo.FilhoDireitoEsquerdo,
+                    Esquerdo = new No
+                    {
+                        Valor = 16,
+                        Pai = 18,
+                        Tipo = TipoNo.FilhoDireito,
+                        Direito = new No
+                        {
+                            Valor = 17,
+                            Pai = 16,
+                            Tipo = TipoNo.Folha
+                        }
+                    },
+                    Direito = new No
+                    {
+                        Valor = 19,
+                        Pai = 18,
+                        Tipo = TipoNo.Folha
+                    }
+                },
+                Direito = new No
+                {
+                    Valor = 25,
+                    Pai = 20,
+                    Tipo = TipoNo.FilhoDireito,
+                    Direito = new No
+                    {
+                        Valor = 30,
+                        Pai = 25,
+                        Tipo = TipoNo.FilhoEsquerdo,
+                        Esquerdo = new No
+                        {
+                            Valor = 27,
+                            Pai = 30,
+                            Tipo = TipoNo.Folha
+                        }
+                    }
+                }
+            }
+        };
+        var valor = 6;
+
+        //Act
+        var result = comando.Executar(no, valor);
+
+        //Assert
+        Assert.NotNull(result?.Direito);
+        Assert.NotNull(result?.Esquerdo);
+        Assert.Equal(TipoNo.FilhoDireito, result?.Esquerdo?.Esquerdo?.Tipo);
+        Assert.Equal(valorFilho, result?.Esquerdo?.Esquerdo?.Valor);
+        Assert.Null(result?.Esquerdo?.Esquerdo?.Esquerdo);
+        Assert.Equal(TipoNo.FilhoEsquerdo, result?.Esquerdo?.Esquerdo?.Direito?.Tipo);
+    }
+
+    [Fact]
+    public void DeletartemArvoreComandoTeste_DeletandoFilhoComFilhosDireitaEsquerda2_Sucesso()
+    {
+        //Arrange
+        var comando = new DeletartemArvoreComando();
+        const int valorFilho = 19;
+        No no = new()
+        {
+            Valor = 15,
+            Tipo = TipoNo.RaizDireitaEsquerda,
+            Esquerdo = new No
+            {
+                Valor = 10,
+                Tipo = TipoNo.FilhoDireitoEsquerdo,
+                Pai = 15,
+                Direito = new No
+                {
+                    Valor = 12,
+                    Tipo = TipoNo.FilhoEsquerdo,
+                    Pai = 10,
+                    Esquerdo = new No
+                    {
+                        Valor = 11,
+                        Pai = 12,
+                        Tipo = TipoNo.Folha
+                    }
+                },
+                Esquerdo = new No
+                {
+                    Valor = 6,
+                    Tipo = TipoNo.FilhoDireitoEsquerdo,
+                    Pai = 15,
+                    Esquerdo = new No
+                    {
+                        Valor = 5,
+                        Pai = 6,
+                        Tipo = TipoNo.Folha
+                    },
+                    Direito = new No
+                    {
+                        Valor = 9,
+                        Pai = 6,
+                        Tipo = TipoNo.FilhoEsquerdo,
+                        Esquerdo = new No
+                        {
+                            Valor = 8,
+                            Pai = 9,
+                            Tipo = TipoNo.Folha
+                        }
+
+                    }
+                },
+            },
+            Direito = new No
+            {
+                Valor = 20,
+                Pai = 15,
+                Tipo = TipoNo.FilhoDireitoEsquerdo,
+                Esquerdo = new No
+                {
+                    Valor = 18,
+                    Pai = 20,
+                    Tipo = TipoNo.FilhoDireitoEsquerdo,
+                    Esquerdo = new No
+                    {
+                        Valor = 16,
+                        Pai = 18,
+                        Tipo = TipoNo.FilhoDireito,
+                        Direito = new No
+                        {
+                            Valor = 17,
+                            Pai = 16,
+                            Tipo = TipoNo.Folha
+                        }
+                    },
+                    Direito = new No
+                    {
+                        Valor = valorFilho,
+                        Pai = 18,
+                        Tipo = TipoNo.Folha
+                    }
+                },
+                Direito = new No
+                {
+                    Valor = 25,
+                    Pai = 20,
+                    Tipo = TipoNo.FilhoDireito,
+                    Direito = new No
+                    {
+                        Valor = 30,
+                        Pai = 25,
+                        Tipo = TipoNo.FilhoEsquerdo,
+                        Esquerdo = new No
+                        {
+                            Valor = 27,
+                            Pai = 30,
+                            Tipo = TipoNo.Folha
+                        }
+                    }
+                }
+            }
+        };
+        var valor = 20;
+
+        //Act
+        var result = comando.Executar(no, valor);
+
+        //Assert
+        Assert.NotNull(result?.Direito);
+        Assert.NotNull(result?.Esquerdo);
+        Assert.Null(result?.Direito?.Esquerdo?.Direito);
+        Assert.Equal(TipoNo.RaizDireitaEsquerda, result?.Tipo);
+        Assert.Equal(valorFilho, result?.Direito?.Valor);
+        Assert.Equal(TipoNo.FilhoDireitoEsquerdo, result?.Direito?.Tipo);
+        Assert.Equal(TipoNo.FilhoDireitoEsquerdo, result?.Esquerdo?.Tipo);
+        Assert.Equal(TipoNo.FilhoDireitoEsquerdo, result?.Direito?.Tipo);
+    }
+
+    [Fact]
+    public void DeletartemArvoreComandoTeste_DeletandoFilhoComFilhosDireitaEsquerda3_Sucesso()
+    {
+        //Arrange
+        var comando = new DeletartemArvoreComando();
+        const int valorFilho = 25;
+        No no = new()
+        {
+            Valor = 15,
+            Tipo = TipoNo.RaizDireitaEsquerda,
+            Esquerdo = new No
+            {
+                Valor = 10,
+                Tipo = TipoNo.FilhoDireitoEsquerdo,
+                Pai = 15,
+                Direito = new No
+                {
+                    Valor = 12,
+                    Tipo = TipoNo.FilhoEsquerdo,
+                    Pai = 10,
+                    Esquerdo = new No
+                    {
+                        Valor = 11,
+                        Pai = 12,
+                        Tipo = TipoNo.Folha
+                    }
+                },
+                Esquerdo = new No
+                {
+                    Valor = 6,
+                    Tipo = TipoNo.FilhoDireitoEsquerdo,
+                    Pai = 15,
+                    Esquerdo = new No
+                    {
+                        Valor = 5,
+                        Pai = 6,
+                        Tipo = TipoNo.Folha
+                    },
+                    Direito = new No
+                    {
+                        Valor = 9,
+                        Pai = 6,
+                        Tipo = TipoNo.FilhoEsquerdo,
+                        Esquerdo = new No
+                        {
+                            Valor = 8,
+                            Pai = 9,
+                            Tipo = TipoNo.Folha
+                        }
+
+                    }
+                },
+            },
+            Direito = new No
+            {
+                Valor = 20,
+                Pai = 15,
+                Tipo = TipoNo.FilhoDireito,
+                Direito = new No
+                {
+                    Valor = valorFilho,
+                    Pai = 20,
+                    Tipo = TipoNo.FilhoDireito,
+                    Direito = new No
+                    {
+                        Valor = 30,
+                        Pai = valorFilho,
+                        Tipo = TipoNo.FilhoEsquerdo,
+                        Esquerdo = new No
+                        {
+                            Valor = 27,
+                            Pai = 30,
+                            Tipo = TipoNo.Folha
+                        }
+                    }
+                }
+            }
+        };
+        var valor = 20;
+
+        //Act
+        var result = comando.Executar(no, valor);
+
+        //Assert
+        Assert.NotNull(result?.Direito);
+        Assert.NotNull(result?.Esquerdo);
+        Assert.Null(result?.Direito?.Esquerdo);
+        Assert.Equal(TipoNo.FilhoEsquerdo, result?.Direito?.Direito?.Tipo);
+        Assert.Equal(valorFilho, result?.Direito?.Valor);
     }
 }

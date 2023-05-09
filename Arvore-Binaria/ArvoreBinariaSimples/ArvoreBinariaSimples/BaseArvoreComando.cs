@@ -89,6 +89,10 @@ public abstract class BaseArvoreComando
         => (TipoNo.RaizDireitaEsquerda | TipoNo.FilhoDireitoEsquerdo).HasFlag(no.Tipo)
             && (no.Esquerdo?.Tipo ?? TipoNo.Folha | no.Direito?.Tipo ?? TipoNo.Folha).HasFlag(TipoNo.Folha);
 
+    private bool RemocaoComplexa(No no)
+        => (TipoNo.RaizDireitaEsquerda | TipoNo.FilhoDireitoEsquerdo).HasFlag(no.Tipo)
+            && (no.Esquerdo?.Tipo ?? TipoNo.Folha | no.Direito?.Tipo ?? TipoNo.Folha).HasFlag(TipoNo.FilhoDireitoEsquerdo);
+
     private No? AtribuirNoLugar(No? no, int valor, No novoValor)
     {
         if (no?.Valor == valor)
@@ -99,6 +103,30 @@ public abstract class BaseArvoreComando
 
         var _no = AtribuirNoLugar(SelecionaLado(valor, no), valor, novoValor);
         AtribuirLado(valor, no, _no);
+
+        return no;
+    }
+
+    private No? MaiorLadoEsquerdo(No? no, No? noPai, int valor)
+    {
+        if (no == null)
+            return no;
+
+        if (no.Valor < valor && no.Direito != null)
+        {
+            return MaiorLadoEsquerdo(no.Direito, no, valor);
+        }
+
+        if (no.Esquerdo != null && noPai != null)
+        {
+            AtribuirLado(valor, noPai, no.Esquerdo);
+            return no;
+        }
+
+        if (noPai != null)
+        {
+            AtribuirLado(valor, noPai, null);
+        }
 
         return no;
     }
@@ -146,6 +174,24 @@ public abstract class BaseArvoreComando
                 _noDelecaoLocalizado.Direito.Tipo = _noDelecaoLocalizado.Tipo;
                 AtribuirLado(valor, _noDelecaoLocalizado.Direito, null);
                 no = AtribuirNoLugar(no, valor, _noDelecaoLocalizado.Direito);
+            }
+        }
+        else if (RemocaoComplexa(_noDelecaoLocalizado))
+        {
+            if (_noDelecaoLocalizado.Esquerdo != null)
+            {
+                var _no = MaiorLadoEsquerdo(_noDelecaoLocalizado.Esquerdo, _noDelecaoLocalizado, valor);
+                if (_no == null)
+                    return no;
+
+                _no.Pai = _noDelecaoLocalizado.Pai;
+                _no.Tipo = _noDelecaoLocalizado.Tipo;
+                _no.Direito = _noDelecaoLocalizado.Direito;
+                _no.Esquerdo = _noDelecaoLocalizado.Esquerdo;
+                if ((TipoNo.RaizDireitaEsquerda).HasFlag(_no.Tipo))
+                    no = _no;
+                else
+                    no = AtribuirNoLugar(no, valor, _no);
             }
         }
 
