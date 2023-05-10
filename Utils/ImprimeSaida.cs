@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+namespace Utils;
 public static class ImprimeSaida
 {
     private readonly static JsonSerializerOptions options = new()

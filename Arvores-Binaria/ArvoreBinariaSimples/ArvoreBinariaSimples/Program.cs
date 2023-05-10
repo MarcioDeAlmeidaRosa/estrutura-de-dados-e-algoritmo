@@ -1,4 +1,5 @@
 ﻿using ArvoreBinariaSimples;
+using Utils;
 
 // See https://aka.ms/new-console-template for more information
 Console.WriteLine("Utilizando árvore binária...");

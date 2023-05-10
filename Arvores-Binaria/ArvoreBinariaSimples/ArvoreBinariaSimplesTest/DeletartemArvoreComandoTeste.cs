@@ -1,4 +1,6 @@
 using ArvoreBinariaSimples;
+using Utils;
+
 namespace ArvoreBinariaSimplesTest;
 
 public class DeletartemArvoreComandoTeste
@@ -95,7 +97,7 @@ public class DeletartemArvoreComandoTeste
         var valor = 70;
 
         ImprimeSaida.Imprimir(no);
-        
+
         //Act
         var result = comando.Executar(no, valor);
 
@@ -134,7 +136,7 @@ public class DeletartemArvoreComandoTeste
         var valor = 50;
 
         ImprimeSaida.Imprimir(no);
-        
+
         //Act
         var result = comando.Executar(no, valor);
 
@@ -168,7 +170,7 @@ public class DeletartemArvoreComandoTeste
         var valor = 50;
 
         ImprimeSaida.Imprimir(no);
-        
+
         //Act
         var result = comando.Executar(no, valor);
 
@@ -201,7 +203,7 @@ public class DeletartemArvoreComandoTeste
         var valor = 50;
 
         ImprimeSaida.Imprimir(no);
-        
+
         //Act
         var result = comando.Executar(no, valor);
 
@@ -246,7 +248,7 @@ public class DeletartemArvoreComandoTeste
         var valor = 45;
 
         ImprimeSaida.Imprimir(no);
-        
+
         //Act
         var result = comando.Executar(no, valor);
 
@@ -359,7 +361,7 @@ public class DeletartemArvoreComandoTeste
         var valor = 25;
 
         ImprimeSaida.Imprimir(no);
-        
+
         //Act
         var result = comando.Executar(no, valor);
 
@@ -473,7 +475,7 @@ public class DeletartemArvoreComandoTeste
         var valor = 15;
 
         ImprimeSaida.Imprimir(no);
-        
+
         //Act
         var result = comando.Executar(no, valor);
 
@@ -593,7 +595,7 @@ public class DeletartemArvoreComandoTeste
         var valor = 15;
 
         ImprimeSaida.Imprimir(no);
-        
+
         //Act
         var result = comando.Executar(no, valor);
 
@@ -713,7 +715,7 @@ public class DeletartemArvoreComandoTeste
         var valor = 6;
 
         ImprimeSaida.Imprimir(no);
-        
+
         //Act
         var result = comando.Executar(no, valor);
 
@@ -833,7 +835,7 @@ public class DeletartemArvoreComandoTeste
         var valor = 20;
 
         ImprimeSaida.Imprimir(no);
-        
+
         //Act
         var result = comando.Executar(no, valor);
 
@@ -931,7 +933,7 @@ public class DeletartemArvoreComandoTeste
         var valor = 20;
 
         ImprimeSaida.Imprimir(no);
-        
+
         //Act
         var result = comando.Executar(no, valor);
 
