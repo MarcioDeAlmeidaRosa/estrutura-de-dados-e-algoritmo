@@ -1,6 +1,8 @@
+using ExecutorGenerico;
+
 namespace ArvoreBinariaSimples;
 
-public class No
+public class No : BaseNo
 {
     public int? Pai { get; set; }
 
@@ -10,5 +12,5 @@ public class No
 
     public No? Direito { get; set; }
 
-    public TipoNo Tipo{ get; set; }
+    public TipoNo Tipo { get; set; }
 }

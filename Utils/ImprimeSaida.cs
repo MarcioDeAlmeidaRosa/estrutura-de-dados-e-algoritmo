@@ -6,7 +6,7 @@ public static class ImprimeSaida
 {
     private readonly static JsonSerializerOptions options = new()
     {
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
     };
 
     static ImprimeSaida()

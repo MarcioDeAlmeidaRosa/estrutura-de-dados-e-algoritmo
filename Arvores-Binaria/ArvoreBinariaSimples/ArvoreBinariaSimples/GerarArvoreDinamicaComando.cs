@@ -1,7 +1,13 @@
+using ExecutorGenerico;
+
 namespace ArvoreBinariaSimples;
 
-public class GerarArvoreDinamicaComando : BaseArvoreComando, IComando
+public class GerarArvoreDinamicaComando : BaseArvoreComando, IComando<No>
 {
+    public int IdComando => 2;
+
+    public string PropositoComando => "gerar uma árvore automática";
+
     public No? Executar(No? no, int valor)
     {
         byte[] randomicoBytes = new byte[valor];
@@ -17,5 +23,10 @@ public class GerarArvoreDinamicaComando : BaseArvoreComando, IComando
     public void ImprimirMensagem()
     {
         Console.WriteLine("Digite a quantidade de itens na árvore:");
+    }
+
+    public void ImprimirObjetivo()
+    {
+        Console.WriteLine($"{IdComando} - Para {PropositoComando}");
     }
 }
