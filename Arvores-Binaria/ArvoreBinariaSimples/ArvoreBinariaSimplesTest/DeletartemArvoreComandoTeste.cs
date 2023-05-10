@@ -29,8 +29,12 @@ public class DeletartemArvoreComandoTeste
         };
         var valor = 50;
 
+        ImprimeSaida.Imprimir(no);
+
         //Act
         var result = comando.Executar(no, valor);
+
+        ImprimeSaida.Imprimir(result);
 
         //Assert
         Assert.Null(result?.Valor);
@@ -54,8 +58,12 @@ public class DeletartemArvoreComandoTeste
         };
         var valor = 60;
 
+        ImprimeSaida.Imprimir(no);
+
         //Act
         var result = comando.Executar(no, valor);
+
+        ImprimeSaida.Imprimir(result);
 
         //Assert
         Assert.Null(result?.Direito);
@@ -86,8 +94,12 @@ public class DeletartemArvoreComandoTeste
         };
         var valor = 70;
 
+        ImprimeSaida.Imprimir(no);
+        
         //Act
         var result = comando.Executar(no, valor);
+
+        ImprimeSaida.Imprimir(result);
 
         //Assert
         Assert.Null(result?.Direito?.Direito);
@@ -121,8 +133,12 @@ public class DeletartemArvoreComandoTeste
         };
         var valor = 50;
 
+        ImprimeSaida.Imprimir(no);
+        
         //Act
         var result = comando.Executar(no, valor);
+
+        ImprimeSaida.Imprimir(result);
 
         //Assert
         Assert.Null(result?.Esquerdo);
@@ -151,8 +167,12 @@ public class DeletartemArvoreComandoTeste
         };
         var valor = 50;
 
+        ImprimeSaida.Imprimir(no);
+        
         //Act
         var result = comando.Executar(no, valor);
+
+        ImprimeSaida.Imprimir(result);
 
         //Assert
         Assert.Null(result?.Esquerdo);
@@ -180,8 +200,12 @@ public class DeletartemArvoreComandoTeste
         };
         var valor = 50;
 
+        ImprimeSaida.Imprimir(no);
+        
         //Act
         var result = comando.Executar(no, valor);
+
+        ImprimeSaida.Imprimir(result);
 
         //Assert
         Assert.Null(result?.Esquerdo);
@@ -221,8 +245,12 @@ public class DeletartemArvoreComandoTeste
         };
         var valor = 45;
 
+        ImprimeSaida.Imprimir(no);
+        
         //Act
         var result = comando.Executar(no, valor);
+
+        ImprimeSaida.Imprimir(result);
 
         //Assert
         Assert.Null(result?.Direito);
@@ -330,8 +358,12 @@ public class DeletartemArvoreComandoTeste
         };
         var valor = 25;
 
+        ImprimeSaida.Imprimir(no);
+        
         //Act
         var result = comando.Executar(no, valor);
+
+        ImprimeSaida.Imprimir(result);
 
         //Assert
         Assert.NotNull(result?.Direito);
@@ -440,8 +472,12 @@ public class DeletartemArvoreComandoTeste
         };
         var valor = 15;
 
+        ImprimeSaida.Imprimir(no);
+        
         //Act
         var result = comando.Executar(no, valor);
+
+        ImprimeSaida.Imprimir(result);
 
         //Assert
         Assert.NotNull(result?.Direito);
@@ -556,8 +592,12 @@ public class DeletartemArvoreComandoTeste
         };
         var valor = 15;
 
+        ImprimeSaida.Imprimir(no);
+        
         //Act
         var result = comando.Executar(no, valor);
+
+        ImprimeSaida.Imprimir(result);
 
         //Assert
         Assert.NotNull(result?.Direito);
@@ -672,8 +712,12 @@ public class DeletartemArvoreComandoTeste
         };
         var valor = 6;
 
+        ImprimeSaida.Imprimir(no);
+        
         //Act
         var result = comando.Executar(no, valor);
+
+        ImprimeSaida.Imprimir(result);
 
         //Assert
         Assert.NotNull(result?.Direito);
@@ -788,8 +832,12 @@ public class DeletartemArvoreComandoTeste
         };
         var valor = 20;
 
+        ImprimeSaida.Imprimir(no);
+        
         //Act
         var result = comando.Executar(no, valor);
+
+        ImprimeSaida.Imprimir(result);
 
         //Assert
         Assert.NotNull(result?.Direito);
@@ -882,8 +930,12 @@ public class DeletartemArvoreComandoTeste
         };
         var valor = 20;
 
+        ImprimeSaida.Imprimir(no);
+        
         //Act
         var result = comando.Executar(no, valor);
+
+        ImprimeSaida.Imprimir(result);
 
         //Assert
         Assert.NotNull(result?.Direito);
