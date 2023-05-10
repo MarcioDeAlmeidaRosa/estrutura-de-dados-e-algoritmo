@@ -3,10 +3,15 @@ using System.Text.Json.Serialization;
 
 public static class ImprimeSaida
 {
-    private static JsonSerializerOptions options = new()
+    private readonly static JsonSerializerOptions options = new()
     {
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
     };
+
+    static ImprimeSaida()
+    {
+        options.Converters.Add(new JsonStringEnumConverter());
+    }
 
     public static void Imprimir<T>(T? objeto) where T : class
     {
