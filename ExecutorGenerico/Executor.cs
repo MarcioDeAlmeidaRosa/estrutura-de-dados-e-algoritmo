@@ -5,7 +5,7 @@ namespace ExecutorGenerico;
 
 public static class Executor
 {
-    private static string Pattern = "^[0-9]+$";
+    private const string Pattern = "^[0-9]+$";
     private const int FinalizarExecucao = 99;
 
     public static void Executar<TypeNo>(ControladorDeComandos<TypeNo> controlador, TypeNo? no)
