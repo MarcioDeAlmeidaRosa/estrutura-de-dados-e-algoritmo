@@ -5,7 +5,7 @@ Console.WriteLine("Red Black trees");
 
 ControladorDeComandos<No> controlador = new(new List<IComando<No>>()
 {
-    // new AdicionarNovoItemArvoreComando(),
+    new AdicionarComando(),
     // new GerarArvoreDinamicaComando(),
     // new DeletartemArvoreComando(),
  });

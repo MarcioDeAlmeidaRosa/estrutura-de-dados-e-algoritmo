@@ -2,7 +2,7 @@ using ExecutorGenerico;
 
 namespace ArvoceBinariaRubroNegra;
 
-public class AdicionarItemComando : IComando<No>
+public class AdicionarComando : BaseComando, IComando<No>
 {
     public int IdComando => 1;
 
@@ -10,7 +10,7 @@ public class AdicionarItemComando : IComando<No>
 
     public No? Executar(No? no, int valor)
     {
-        throw new NotImplementedException();
+        return Adicionar(no, valor);
     }
 
     public void ImprimirMensagem()
