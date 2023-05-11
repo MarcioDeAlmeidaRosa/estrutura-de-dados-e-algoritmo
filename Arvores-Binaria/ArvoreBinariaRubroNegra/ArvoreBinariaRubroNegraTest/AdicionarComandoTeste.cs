@@ -2,10 +2,10 @@ using ArvoceBinariaRubroNegra;
 
 namespace ArvoceBinariaRubroNegraTest;
 
-public class AdicionarItemComandoTeste
+public class AdicionarComandoTeste
 {
     [Fact]
-    public void AdicionarItemComandoTeste_InicializandoArvore_Sucesso()
+    public void AdicionarComando_InicializandoArvore_Sucesso()
     {
         //Arrange
         var comando = new AdicionarComando();
