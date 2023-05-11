@@ -1,9 +1,8 @@
 namespace ArvoceBinariaRubroNegraTest;
 
-[TestClass]
-public class UnitTest1
+public class AdicionarItemComandoTeste
 {
-    [TestMethod]
+    [Fact]
     public void TestMethod1()
     {
     }
