@@ -50,4 +50,33 @@ public class AdicionarComandoTeste
         Assert.Equal(Tipo.Nulo, result?.Esquerdo?.Esquerdo?.Tipo);
         Assert.Equal(Tipo.Nulo, result?.Direito?.Tipo);
     }
+
+    [Fact]
+    public void AdicionarComando_InicializandoArvoreFilhoDireito_Sucesso()
+    {
+        //Arrange
+        var comando = new AdicionarComando();
+        No no = new()
+        {
+            Valor = 50,
+            Tipo = Tipo.Raiz,
+            Direito = BaseComando.NoNulo,
+            Esquerdo = BaseComando.NoNulo,
+        };
+        var valor = 75;
+
+        ImprimeSaida.Imprimir(no);
+
+        //Act
+        var result = comando.Executar(no, valor);
+
+        ImprimeSaida.Imprimir(result);
+
+        //Assert
+        Assert.Equal(valor, result?.Direito?.Valor);
+        Assert.Equal(Tipo.Vermelho, result?.Direito?.Tipo);
+        Assert.Equal(Tipo.Nulo, result?.Direito?.Direito?.Tipo);
+        Assert.Equal(Tipo.Nulo, result?.Direito?.Esquerdo?.Tipo);
+        Assert.Equal(Tipo.Nulo, result?.Esquerdo?.Tipo);
+    }
 }
