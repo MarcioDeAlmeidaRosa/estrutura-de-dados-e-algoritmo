@@ -8,7 +8,7 @@ public class AdicionarComando : BaseComando, IComando<No>
 
     public string PropositoComando => "adicionar um item na árvore";
 
-    public No? Executar(No? no, int valor)
+    public No Executar(No? no, int valor)
     {
         return Adicionar(no, valor);
     }

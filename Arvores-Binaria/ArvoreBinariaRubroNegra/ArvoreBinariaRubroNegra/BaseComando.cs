@@ -2,9 +2,9 @@ namespace ArvoceBinariaRubroNegra;
 
 public abstract class BaseComando
 {
-    public static readonly No NoNulo = new No { Tipo = Tipo.Nulo };
+    private static readonly No NoNulo = new No { Tipo = Tipo.Nulo };
 
-    private static No CriarNovoNo(Tipo tipo, int valor)
+    public static No CriarNovoNo(Tipo tipo, int valor)
         => new No
         {
             Valor = valor,
@@ -13,17 +13,17 @@ public abstract class BaseComando
             Esquerdo = NoNulo,
         };
 
-    private static No? EscolherLado(No no, int valor)
+    private static (No noEscolhido, No noTio) EscolherLado(No no, int valor)
     {
         if (valor > no.Valor)
-            return no.Direito;
+            return (no.Direito, no.Esquerdo);
 
-        return no.Esquerdo;
+        return (no.Esquerdo, no.Direito);
     }
 
-    private static No AtribuirLado(No noPai, int valor, No? noFilho)
+    private static No AtribuirLado(No noPai, int valor, No noFilho, No noAvo, No noTio)
     {
-        if (noFilho != null)
+        if (noFilho.Tipo != Tipo.Nulo)
             noFilho.Pai = noFilho.Valor;
 
         if (valor > noPai.Valor)
@@ -31,26 +31,51 @@ public abstract class BaseComando
         else
             noPai.Esquerdo = noFilho;
 
+        ValidarBalanceamento(noPai, noFilho, noAvo, noTio);
+
         return noPai;
     }
 
-    private static No? AdicionarNo(No no, int valor)
+    private static No AdicionarNo(No no, int valor, No noAvo, No irmao)
     {
-        var lado = EscolherLado(no, valor);
+        No lado = NoNulo;
+        No tio = NoNulo;
+
+        (lado, tio) = EscolherLado(no, valor);
+
+        if (tio.Tipo == Tipo.Nulo && irmao.Tipo != Tipo.Nulo)
+            tio = irmao;
 
         if (lado.Tipo == Tipo.Nulo)
-            return AtribuirLado(no, valor, CriarNovoNo(Tipo.Vermelho, valor));
+        {
+            return AtribuirLado(no, valor, CriarNovoNo(Tipo.Vermelho, valor), noAvo, tio);
+        }
 
-        AdicionarNo(lado, valor);
+        AdicionarNo(lado, valor, no, tio);
         return no;
     }
 
-    protected No? Adicionar(No? no, int valor)
+    protected No Adicionar(No? no, int valor)
     {
         if (no == null)
             return CriarNovoNo(Tipo.Raiz, valor);
 
-        return AdicionarNo(no, valor);
+        return AdicionarNo(no, valor, NoNulo, NoNulo);
+    }
+
+    private static void ValidarBalanceamento(No noPai, No noFilho, No noAvo, No noTio)
+    {
+        if (noPai.Tipo == Tipo.Vermelho
+        && noFilho.Tipo == Tipo.Vermelho
+        && noTio.Tipo == Tipo.Vermelho)
+        {
+            noPai.Tipo = Tipo.Preto;
+            noTio.Tipo = Tipo.Preto;
+            //TODO: PONTO DE ATENÇÃO
+            if (noAvo.Tipo != Tipo.Raiz)
+                noAvo.Tipo = Tipo.Vermelho;
+        }
+
     }
 
 }

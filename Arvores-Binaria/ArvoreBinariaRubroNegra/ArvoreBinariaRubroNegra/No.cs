@@ -8,9 +8,9 @@ public class No: BaseNo
 
     public int Valor { get; set; }
 
-    public No? Esquerdo { get; set; }
+    public No Esquerdo { get; set; }
 
-    public No? Direito { get; set; }
+    public No Direito { get; set; }
 
     public Tipo Tipo { get; set; }
 }

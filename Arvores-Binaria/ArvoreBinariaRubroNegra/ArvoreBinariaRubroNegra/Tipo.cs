@@ -4,7 +4,7 @@ namespace ArvoceBinariaRubroNegra;
 public enum Tipo
 {
     Preto = 1,
-    Raiz = Preto,
-    Nulo = Preto,
-    Vermelho = 2,
+    Raiz = 2,
+    Nulo = 4,
+    Vermelho = 8,
 }
