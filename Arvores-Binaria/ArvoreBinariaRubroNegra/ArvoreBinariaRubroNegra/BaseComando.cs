@@ -24,7 +24,7 @@ public abstract class BaseComando
     private static No AtribuirLado(No noPai, int valor, No noFilho, No noAvo, No noTio)
     {
         if (noFilho.Tipo != Tipo.Nulo)
-            noFilho.Pai = noFilho.Valor;
+            noFilho.Pai = noPai.Valor;
 
         if (valor > noPai.Valor)
             noPai.Direito = noFilho;
@@ -36,23 +36,23 @@ public abstract class BaseComando
         return noPai;
     }
 
-    private static No AdicionarNo(No no, int valor, No noAvo, No irmao)
+    private static No AdicionarNo(No noCorrente, int valor, No noAvo, No irmao)
     {
         No lado = NoNulo;
         No tio = NoNulo;
 
-        (lado, tio) = EscolherLado(no, valor);
+        (lado, tio) = EscolherLado(noCorrente, valor);
 
         if (tio.Tipo == Tipo.Nulo && irmao.Tipo != Tipo.Nulo)
             tio = irmao;
 
         if (lado.Tipo == Tipo.Nulo)
         {
-            return AtribuirLado(no, valor, CriarNovoNo(Tipo.Vermelho, valor), noAvo, tio);
+            return AtribuirLado(noCorrente, valor, CriarNovoNo(Tipo.Vermelho, valor), noAvo, tio);
         }
 
-        AdicionarNo(lado, valor, no, tio);
-        return no;
+        AdicionarNo(lado, valor, noCorrente, tio);
+        return noCorrente;
     }
 
     protected No Adicionar(No? no, int valor)
@@ -71,7 +71,6 @@ public abstract class BaseComando
         {
             noPai.Tipo = Tipo.Preto;
             noTio.Tipo = Tipo.Preto;
-            //TODO: PONTO DE ATENÇÃO
             if (noAvo.Tipo != Tipo.Raiz)
                 noAvo.Tipo = Tipo.Vermelho;
         }
