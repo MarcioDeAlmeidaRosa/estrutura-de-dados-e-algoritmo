@@ -1,1 +1,4 @@
 Àrvores Red-Black foram inventadas em 1972 por Rudolf Bayer
+
+Explicação usada como base
+https://www.youtube.com/watch?v=MZW8PaZbqX8
