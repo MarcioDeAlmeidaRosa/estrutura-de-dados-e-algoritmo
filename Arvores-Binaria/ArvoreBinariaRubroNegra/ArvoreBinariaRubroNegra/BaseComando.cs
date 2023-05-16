@@ -4,14 +4,14 @@ public abstract class BaseComando
 {
     private static readonly No NoNulo = new No { Tipo = Tipo.Nulo };
 
-    public static No CriarNovoNo(Tipo tipo, int valor, int? valorPai)
+    public static No CriarNovoNo(Tipo tipo, int valor, No? norPai)
         => new No
         {
             Valor = valor,
             Tipo = tipo,
             Direito = NoNulo,
             Esquerdo = NoNulo,
-            Pai = valorPai,
+            Pai = norPai,
         };
 
     private static (No noEscolhido, No noTio) EscolherLado(No no, int valor)
@@ -22,38 +22,38 @@ public abstract class BaseComando
         return (no.Esquerdo, no.Direito);
     }
 
-    private static No AtribuirLado(No noPai, int valor, No noFilho, No noAvo, No noTio)
+    private static No AtribuirLado(No noCorrente, int valor, No noFilho, No noPai, No noTio, No? noVo)
     {
         if (noFilho.Tipo != Tipo.Nulo)
-            noFilho.Pai = noPai.Valor;
+            noFilho.Pai = noCorrente;
 
-        if (valor > noPai.Valor)
-            noPai.Direito = noFilho;
+        if (valor > noCorrente.Valor)
+            noCorrente.Direito = noFilho;
         else
-            noPai.Esquerdo = noFilho;
+            noCorrente.Esquerdo = noFilho;
 
-        ValidarBalanceamento(noPai, noFilho, noAvo, noTio);
+        ValidarBalanceamento(noCorrente, noFilho, noPai, noTio, noVo);
 
-        return noPai;
+        return noCorrente;
     }
 
-    private static No AdicionarNo(No noCorrente, int valor, No noAvo, No irmao)
+    private static No AdicionarNo(No noCorrente, int valor, No noPai, No irmao, No? noVo)
     {
-        No lado = NoNulo;
-        No tio = NoNulo;
+        No novoNoCorrente = NoNulo;
+        No novoNoIrmao = NoNulo;
 
-        (lado, tio) = EscolherLado(noCorrente, valor);
+        (novoNoCorrente, novoNoIrmao) = EscolherLado(noCorrente, valor);
 
-        if (tio.Tipo == Tipo.Nulo && irmao.Tipo != Tipo.Nulo)
-            tio = irmao;
+        if (novoNoIrmao.Tipo == Tipo.Nulo && irmao.Tipo != Tipo.Nulo)
+            novoNoIrmao = irmao;
 
-        if (lado.Tipo == Tipo.Nulo)
+        if (novoNoCorrente.Tipo == Tipo.Nulo)
         {
-            return AtribuirLado(noCorrente, valor, CriarNovoNo(Tipo.Vermelho, valor, noCorrente.Valor), noAvo, tio);
+            return AtribuirLado(noCorrente, valor, CriarNovoNo(Tipo.Vermelho, valor, noCorrente), noPai, novoNoIrmao, noVo);
         }
 
-        AdicionarNo(lado, valor, noCorrente, tio);
-        
+        AdicionarNo(novoNoCorrente, valor, noCorrente, novoNoIrmao, noCorrente.Pai);
+
         return noCorrente;
     }
 
@@ -62,34 +62,52 @@ public abstract class BaseComando
         if (no == null)
             return CriarNovoNo(Tipo.Raiz, valor, default);
 
-        return AdicionarNo(no, valor, NoNulo, NoNulo);
+        return AdicionarNo(no, valor, NoNulo, NoNulo, NoNulo);
     }
 
-    private static void ValidarBalanceamento(No noPai, No noFilho, No noAvo, No noTio)
+    private static void ValidarBalanceamento(No noCorrente, No noFilho, No noPai, No noTio, No? noVo)
     {
-        if (noPai.Tipo == Tipo.Vermelho
+        if (noCorrente.Tipo == Tipo.Vermelho
         && noFilho.Tipo == Tipo.Vermelho
         && noTio.Tipo == Tipo.Vermelho)
         {
-            noPai.Tipo = Tipo.Preto;
+            noCorrente.Tipo = Tipo.Preto;
             noTio.Tipo = Tipo.Preto;
-            if (noAvo.Tipo != Tipo.Raiz)
-                noAvo.Tipo = Tipo.Vermelho;
+            if (noPai.Tipo != Tipo.Raiz)
+                noPai.Tipo = Tipo.Vermelho;
 
             return;
         }
 
-        if (noPai.Tipo == Tipo.Vermelho
+        if (noCorrente.Tipo == Tipo.Vermelho
         && noFilho.Tipo == Tipo.Vermelho
-        && noFilho.Valor > noPai.Valor
+        && noFilho.Valor > noCorrente.Valor
         && Tipo.Pretos.HasFlag(noTio.Tipo))
         {
-            (noPai, noFilho) = (noFilho, noPai);
-            AtribuirLado(noFilho, noPai.Valor, NoNulo, noAvo, noTio);
-            AtribuirLado(noPai, noFilho.Valor, noFilho, noAvo, noTio);
-            AtribuirLado(noAvo, noPai.Valor, noPai, noAvo, noTio);
+            (noCorrente, noFilho) = (noFilho, noCorrente);
+            AtribuirLado(noFilho, noCorrente.Valor, NoNulo, noPai, noTio, noVo);
+            AtribuirLado(noCorrente, noFilho.Valor, noFilho, noPai, noTio, noVo);
+
+            (noPai, noCorrente) = (noCorrente, noPai);
+            AtribuirLado(noCorrente, noPai.Valor, NoNulo, noPai, noTio, noVo);
+            AtribuirLado(noPai, noCorrente.Valor, noCorrente, noPai, noTio, noVo);
+            noPai.Tipo = Tipo.Preto;
+            noCorrente.Tipo = Tipo.Vermelho;
+            AtribuirLado(noVo, noPai.Valor, noPai, noPai, noTio, noVo);
             return;
         }
+    }
+
+    private No BuscarNo(No no, int valor)
+    {
+        var (noEncontrado, _) = EscolherLado(no, valor);
+
+        if (noEncontrado.Valor == valor)
+            return noEncontrado;
+
+        noEncontrado = BuscarNo(no, valor);
+
+        return noEncontrado;
     }
 
 }

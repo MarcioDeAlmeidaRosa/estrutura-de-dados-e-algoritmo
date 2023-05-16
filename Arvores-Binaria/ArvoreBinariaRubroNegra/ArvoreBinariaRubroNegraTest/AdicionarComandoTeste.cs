@@ -74,7 +74,7 @@ public class AdicionarComandoTeste
         //Arrange
         var comando = new AdicionarComando();
         No no = BaseComando.CriarNovoNo(Tipo.Raiz, 50, default);
-        no.Esquerdo = BaseComando.CriarNovoNo(Tipo.Vermelho, 25, no.Valor);
+        no.Esquerdo = BaseComando.CriarNovoNo(Tipo.Vermelho, 25, no);
 
         var valor = 75;
 
@@ -101,8 +101,8 @@ public class AdicionarComandoTeste
         //Arrange
         var comando = new AdicionarComando();
         No no = BaseComando.CriarNovoNo(Tipo.Raiz, 23, default);
-        no.Esquerdo = BaseComando.CriarNovoNo(Tipo.Vermelho, 12, no.Valor);
-        no.Direito = BaseComando.CriarNovoNo(Tipo.Vermelho, 37, no.Valor);
+        no.Esquerdo = BaseComando.CriarNovoNo(Tipo.Vermelho, 12, no);
+        no.Direito = BaseComando.CriarNovoNo(Tipo.Vermelho, 37, no);
 
         var valor = 5;
 
@@ -132,12 +132,12 @@ public class AdicionarComandoTeste
         //Arrange
         var comando = new AdicionarComando();
         No no = BaseComando.CriarNovoNo(Tipo.Raiz, 23, default);
-        no.Esquerdo = BaseComando.CriarNovoNo(Tipo.Preto, 12, no.Valor);
-        no.Esquerdo.Esquerdo = BaseComando.CriarNovoNo(Tipo.Vermelho, 6, no.Esquerdo.Valor);
-        no.Esquerdo.Direito = BaseComando.CriarNovoNo(Tipo.Vermelho, 18, no.Esquerdo.Valor);
-        no.Direito = BaseComando.CriarNovoNo(Tipo.Preto, 37, no.Valor);
-        no.Direito.Esquerdo = BaseComando.CriarNovoNo(Tipo.Vermelho, 32, no.Direito.Valor);
-        no.Direito.Direito = BaseComando.CriarNovoNo(Tipo.Vermelho, 48, no.Direito.Valor);
+        no.Esquerdo = BaseComando.CriarNovoNo(Tipo.Preto, 12, no);
+        no.Esquerdo.Esquerdo = BaseComando.CriarNovoNo(Tipo.Vermelho, 6, no.Esquerdo);
+        no.Esquerdo.Direito = BaseComando.CriarNovoNo(Tipo.Vermelho, 18, no.Esquerdo);
+        no.Direito = BaseComando.CriarNovoNo(Tipo.Preto, 37, no);
+        no.Direito.Esquerdo = BaseComando.CriarNovoNo(Tipo.Vermelho, 32, no.Direito);
+        no.Direito.Direito = BaseComando.CriarNovoNo(Tipo.Vermelho, 48, no.Direito);
 
         var valor = 14;
 
@@ -178,13 +178,13 @@ public class AdicionarComandoTeste
         //Arrange
         var comando = new AdicionarComando();
         No no = BaseComando.CriarNovoNo(Tipo.Raiz, 23, default);
-        no.Esquerdo = BaseComando.CriarNovoNo(Tipo.Vermelho, 12, no.Valor);
-        no.Esquerdo.Esquerdo = BaseComando.CriarNovoNo(Tipo.Preto, 6, no.Esquerdo.Valor);
-        no.Esquerdo.Direito = BaseComando.CriarNovoNo(Tipo.Preto, 18, no.Esquerdo.Valor);
-        no.Esquerdo.Direito.Esquerdo = BaseComando.CriarNovoNo(Tipo.Vermelho, 14, no.Esquerdo.Direito.Valor);
-        no.Direito = BaseComando.CriarNovoNo(Tipo.Preto, 37, no.Valor);
-        no.Direito.Esquerdo = BaseComando.CriarNovoNo(Tipo.Vermelho, 32, no.Direito.Valor);
-        no.Direito.Direito = BaseComando.CriarNovoNo(Tipo.Vermelho, 48, no.Direito.Valor);
+        no.Esquerdo = BaseComando.CriarNovoNo(Tipo.Vermelho, 12, no);
+        no.Esquerdo.Esquerdo = BaseComando.CriarNovoNo(Tipo.Preto, 6, no.Esquerdo);
+        no.Esquerdo.Direito = BaseComando.CriarNovoNo(Tipo.Preto, 18, no.Esquerdo);
+        no.Esquerdo.Direito.Esquerdo = BaseComando.CriarNovoNo(Tipo.Vermelho, 14, no.Esquerdo.Direito);
+        no.Direito = BaseComando.CriarNovoNo(Tipo.Preto, 37, no);
+        no.Direito.Esquerdo = BaseComando.CriarNovoNo(Tipo.Vermelho, 32, no.Direito);
+        no.Direito.Direito = BaseComando.CriarNovoNo(Tipo.Vermelho, 48, no.Direito);
 
         var valor = 15;
 
@@ -213,11 +213,17 @@ public class AdicionarComandoTeste
         Assert.Equal(Tipo.Preto, result.Esquerdo.Esquerdo.Tipo);
 
         Assert.Equal(Tipo.Preto, result.Esquerdo.Direito.Tipo);
-        Assert.Equal(Tipo.Nulo, result.Esquerdo.Direito.Direito.Tipo);
+        Assert.Equal(valor, result.Esquerdo.Direito.Valor);
+
+        Assert.Equal(Tipo.Vermelho, result.Esquerdo.Direito.Direito.Tipo);
+        Assert.Equal(18, result.Esquerdo.Direito.Direito.Valor);
 
         Assert.Equal(Tipo.Vermelho, result.Esquerdo.Direito.Esquerdo.Tipo);
+        Assert.Equal(no.Esquerdo.Direito.Esquerdo.Valor, result.Esquerdo.Direito.Esquerdo.Valor);
 
-        Assert.Equal(Tipo.Vermelho, result.Esquerdo.Direito.Esquerdo.Esquerdo.Tipo);
-        Assert.Equal(valor, result.Esquerdo.Direito.Esquerdo.Valor);
+        Assert.Equal(Tipo.Nulo, result.Esquerdo.Direito.Esquerdo.Esquerdo.Tipo);
+        Assert.Equal(Tipo.Nulo, result.Esquerdo.Direito.Esquerdo.Direito.Tipo);
+
+        Assert.Equal(no.Esquerdo.Direito.Valor, result.Esquerdo.Direito.Esquerdo.Pai?.Valor);
     }
 }

@@ -1,10 +1,21 @@
+using System.Text.Json.Serialization;
 using ExecutorGenerico;
 
 namespace ArvoceBinariaRubroNegra;
 
-public class No: BaseNo
+public class No : BaseNo
 {
-    public int? Pai { get; set; }
+    [JsonIgnore]
+    public No? Pai { get; set; }
+    
+    public int? ValorPai
+    {
+        get
+        {
+            return Pai?.Valor;
+
+        }
+    }
 
     public int Valor { get; set; }
 
