@@ -28,20 +28,20 @@ public abstract class BaseComando
 
     private static No AdicionarNo(No noCorrente, int valor, No noPai, No noTio, No noVo)
     {
-        No novoNoCorrente = No.NoNulo;
+        No novoPai = No.NoNulo;
         No novoTio = No.NoNulo;
 
-        (novoNoCorrente, novoTio) = EscolherLado(noCorrente, valor);
+        (novoPai, novoTio) = EscolherLado(noCorrente, valor);
 
         if (novoTio.Tipo == Tipo.Nulo && noTio.Tipo != Tipo.Nulo)
             novoTio = noTio;
 
-        if (novoNoCorrente.Tipo == Tipo.Nulo)
+        if (novoPai.Tipo == Tipo.Nulo)
         {
             return AtribuirLado(noCorrente, valor, CriarNovoNo(Tipo.Vermelho, valor, noCorrente), noPai, novoTio, noVo);
         }
 
-        AdicionarNo(novoNoCorrente, valor, noCorrente, novoTio, noCorrente.Pai ?? No.NoNulo);
+        AdicionarNo(novoPai, valor, noCorrente, novoTio, noCorrente.Pai ?? No.NoNulo);
 
         return noCorrente;
     }
@@ -61,34 +61,45 @@ public abstract class BaseComando
         return noCorrente;
     }
 
-    private static void ValidarBalanceamento(No noCorrente, No noFilho, No noPai, No noTio, No noVo)
+    private static void ValidarBalanceamento(No noPai, No noFilho, No noVo, No noTio, No noBisavo)
     {
-        if (noCorrente.Tipo == Tipo.Vermelho
-        && noFilho.Tipo == Tipo.Vermelho
-        && noTio.Tipo == Tipo.Vermelho)
+        //Caso 1e (esqueda)
+        //v = (vertise - no sendo incluído) = noFilho  
+        if (noTio.Tipo == Tipo.Vermelho //possui um tio rubro
+         && noPai.Tipo == Tipo.Vermelho //seu pai é um filho rubro
+         && noFilho.Tipo == Tipo.Vermelho)
         {
-            noCorrente.Tipo = Tipo.Preto;
+            noPai.Tipo = Tipo.Preto;
             noTio.Tipo = Tipo.Preto;
-            if (noPai.Tipo != Tipo.Raiz)
-                noPai.Tipo = Tipo.Vermelho;
+            if (noVo.Tipo != Tipo.Raiz)
+                noVo.Tipo = Tipo.Vermelho;
+
+            if (!Tipo.Pretos.HasFlag(noBisavo.Tipo))
+            {
+                //violação da regra 4 foi elevada a 1 níveil
+                // v é elevado dois níveis 
+                // executamos um passo-CE para o novo v (avô de v)
+                var (_, tio) = EscolherLado(noBisavo.Pai, noFilho.Valor);
+                ValidarBalanceamento(noBisavo, noVo, noBisavo.Pai, tio, noBisavo.Pai.Pai ?? No.NoNulo);
+            }
 
             return;
         }
 
-        if (noCorrente.Tipo == Tipo.Vermelho
+        if (noPai.Tipo == Tipo.Vermelho
         && noFilho.Tipo == Tipo.Vermelho
-        && noFilho.Valor > noCorrente.Valor
+        && noFilho.Valor > noPai.Valor
         && Tipo.Pretos.HasFlag(noTio.Tipo))
         {
-            (noCorrente, noFilho) = (noFilho, noCorrente);
-            AtribuirLado(noFilho, noCorrente.Valor, No.NoNulo, noPai, noTio, noVo);
-            AtribuirLado(noCorrente, noFilho.Valor, noFilho, noPai, noTio, noVo);
+            (noPai, noFilho) = (noFilho, noPai);
+            AtribuirLado(noFilho, noPai.Valor, No.NoNulo, noVo, noTio, noBisavo);
+            AtribuirLado(noPai, noFilho.Valor, noFilho, noVo, noTio, noBisavo);
 
-            (noPai, noCorrente) = (noCorrente, noPai);
-            AtribuirLado(noCorrente, noPai.Valor, No.NoNulo, noPai, noTio, noVo);
-            AtribuirLado(noPai, noCorrente.Valor, noCorrente, noPai, noTio, noVo);
-            (noPai.Tipo, noCorrente.Tipo) = (noCorrente.Tipo, noPai.Tipo);
-            AtribuirLado(noVo, noPai.Valor, noPai, noPai, noTio, noVo);
+            (noVo, noPai) = (noPai, noVo);
+            AtribuirLado(noPai, noVo.Valor, No.NoNulo, noVo, noTio, noBisavo);
+            AtribuirLado(noVo, noPai.Valor, noPai, noVo, noTio, noBisavo);
+            (noVo.Tipo, noPai.Tipo) = (noPai.Tipo, noVo.Tipo);
+            AtribuirLado(noBisavo, noVo.Valor, noVo, noVo, noTio, noBisavo);
             return;
         }
     }
