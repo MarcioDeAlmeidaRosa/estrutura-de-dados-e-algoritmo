@@ -5,6 +5,14 @@ namespace ArvoceBinariaRubroNegra;
 
 public class No : BaseNo
 {
+    public static readonly No NoNulo = new No { Tipo = Tipo.Nulo };
+
+    public No()
+    {
+        Esquerdo = NoNulo;
+        Direito = NoNulo;
+    }
+
     [JsonIgnore]
     public No? Pai { get; set; }
     

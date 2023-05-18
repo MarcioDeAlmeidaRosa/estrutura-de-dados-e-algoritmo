@@ -2,3 +2,16 @@
 
 Explicação usada como base
 https://www.youtube.com/watch?v=MZW8PaZbqX8
+
+
+ArvoceBinariaRubroNegraTest
+
+1- Todo nodo ou é rubro ou é negro
+
+2 - A raiz é ArvoceBinariaRubroNegra
+
+3 - Toda folha é negra (Folhas são somente os nodos vazios (ponteiros nulo))
+
+4 - Se um nodo for rubro, então ambos os filhos são negros
+
+5 - Para todo nodo, todos os caminhos até uma folha contém o mesmo número de nodos negros

@@ -2,15 +2,11 @@ namespace ArvoceBinariaRubroNegra;
 
 public abstract class BaseComando
 {
-    private static readonly No NoNulo = new No { Tipo = Tipo.Nulo };
-
     public static No CriarNovoNo(Tipo tipo, int valor, No? norPai)
         => new No
         {
             Valor = valor,
             Tipo = tipo,
-            Direito = NoNulo,
-            Esquerdo = NoNulo,
             Pai = norPai,
         };
 
@@ -22,7 +18,35 @@ public abstract class BaseComando
         return (no.Esquerdo, no.Direito);
     }
 
-    private static No AtribuirLado(No noCorrente, int valor, No noFilho, No noPai, No noTio, No? noVo)
+    protected No Adicionar(No? no, int valor)
+    {
+        if (no == null)
+            return CriarNovoNo(Tipo.Raiz, valor, default);
+
+        return AdicionarNo(no, valor, No.NoNulo, No.NoNulo, No.NoNulo);
+    }
+
+    private static No AdicionarNo(No noCorrente, int valor, No noPai, No noTio, No noVo)
+    {
+        No novoNoCorrente = No.NoNulo;
+        No novoTio = No.NoNulo;
+
+        (novoNoCorrente, novoTio) = EscolherLado(noCorrente, valor);
+
+        if (novoTio.Tipo == Tipo.Nulo && noTio.Tipo != Tipo.Nulo)
+            novoTio = noTio;
+
+        if (novoNoCorrente.Tipo == Tipo.Nulo)
+        {
+            return AtribuirLado(noCorrente, valor, CriarNovoNo(Tipo.Vermelho, valor, noCorrente), noPai, novoTio, noVo);
+        }
+
+        AdicionarNo(novoNoCorrente, valor, noCorrente, novoTio, noCorrente.Pai ?? No.NoNulo);
+
+        return noCorrente;
+    }
+
+    private static No AtribuirLado(No noCorrente, int valor, No noFilho, No noPai, No noTio, No noVo)
     {
         if (noFilho.Tipo != Tipo.Nulo)
             noFilho.Pai = noCorrente;
@@ -37,35 +61,7 @@ public abstract class BaseComando
         return noCorrente;
     }
 
-    private static No AdicionarNo(No noCorrente, int valor, No noPai, No irmao, No? noVo)
-    {
-        No novoNoCorrente = NoNulo;
-        No novoNoIrmao = NoNulo;
-
-        (novoNoCorrente, novoNoIrmao) = EscolherLado(noCorrente, valor);
-
-        if (novoNoIrmao.Tipo == Tipo.Nulo && irmao.Tipo != Tipo.Nulo)
-            novoNoIrmao = irmao;
-
-        if (novoNoCorrente.Tipo == Tipo.Nulo)
-        {
-            return AtribuirLado(noCorrente, valor, CriarNovoNo(Tipo.Vermelho, valor, noCorrente), noPai, novoNoIrmao, noVo);
-        }
-
-        AdicionarNo(novoNoCorrente, valor, noCorrente, novoNoIrmao, noCorrente.Pai);
-
-        return noCorrente;
-    }
-
-    protected No Adicionar(No? no, int valor)
-    {
-        if (no == null)
-            return CriarNovoNo(Tipo.Raiz, valor, default);
-
-        return AdicionarNo(no, valor, NoNulo, NoNulo, NoNulo);
-    }
-
-    private static void ValidarBalanceamento(No noCorrente, No noFilho, No noPai, No noTio, No? noVo)
+    private static void ValidarBalanceamento(No noCorrente, No noFilho, No noPai, No noTio, No noVo)
     {
         if (noCorrente.Tipo == Tipo.Vermelho
         && noFilho.Tipo == Tipo.Vermelho
@@ -85,14 +81,13 @@ public abstract class BaseComando
         && Tipo.Pretos.HasFlag(noTio.Tipo))
         {
             (noCorrente, noFilho) = (noFilho, noCorrente);
-            AtribuirLado(noFilho, noCorrente.Valor, NoNulo, noPai, noTio, noVo);
+            AtribuirLado(noFilho, noCorrente.Valor, No.NoNulo, noPai, noTio, noVo);
             AtribuirLado(noCorrente, noFilho.Valor, noFilho, noPai, noTio, noVo);
 
             (noPai, noCorrente) = (noCorrente, noPai);
-            AtribuirLado(noCorrente, noPai.Valor, NoNulo, noPai, noTio, noVo);
+            AtribuirLado(noCorrente, noPai.Valor, No.NoNulo, noPai, noTio, noVo);
             AtribuirLado(noPai, noCorrente.Valor, noCorrente, noPai, noTio, noVo);
-            noPai.Tipo = Tipo.Preto;
-            noCorrente.Tipo = Tipo.Vermelho;
+            (noPai.Tipo, noCorrente.Tipo) = (noCorrente.Tipo, noPai.Tipo);
             AtribuirLado(noVo, noPai.Valor, noPai, noPai, noTio, noVo);
             return;
         }
